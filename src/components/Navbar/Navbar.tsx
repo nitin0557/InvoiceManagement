@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
           </IconButton>
 
           <IconButton edge="end" color="inherit" aria-label="logout">
-            <StyledLink to="/" onClick={()=>handleLogout()}>
+            <StyledLink to="/InvoiceManagement">
               <LogoutIcon />
             </StyledLink>
           </IconButton>
