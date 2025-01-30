@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("userSession");
-    navigate("/login");
+    navigate("/Invoice");
   };
   return (
     <NavbarContainer position="static">

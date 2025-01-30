@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/Invoice" element={<Login/>} />
          <Route path="/logout" element={<Logout/>} />
-        <Route path="/invoice" element={<PrivateRoute element={<InvoiceForm />} />} />
+        <Route path="/Invoice" element={<PrivateRoute element={<InvoiceForm />} />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </Router>
