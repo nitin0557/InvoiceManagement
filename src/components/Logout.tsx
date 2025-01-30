@@ -6,7 +6,7 @@ const Logout: React.FC = () => {
 
   useEffect(() => {
     localStorage.removeItem('userSession');
-    navigate('/Invoice'); 
+    navigate('/InvoiceAssessment'); 
   }, [navigate]);
 
   return null; 

@@ -11,8 +11,8 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/Invoice" element={<Login/>} />
-         <Route path="/logout" element={<Logout/>} />
+        <Route path="/InvoiceAssessment" element={<Login/>} />
+        <Route path="/logout" element={<Logout/>} />
         <Route path="/Invoice" element={<PrivateRoute element={<InvoiceForm />} />} />
         <Route path="*" element={<Login />} />
       </Routes>
