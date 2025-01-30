@@ -39,7 +39,7 @@ const Login: React.FC = () => {
         "userSession",
         JSON.stringify({ username: values.username })
       );
-      navigate("/invoice");
+      navigate("/Invoice");
     } else {
       alert("Invalid credentials");
     }
