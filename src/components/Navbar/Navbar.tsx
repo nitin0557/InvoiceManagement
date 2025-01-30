@@ -11,10 +11,11 @@ import {
 } from "./Navbar.style";
 
 const Navbar: React.FC = () => {
+  
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("userSession");
-    navigate("/Invoice");
+    navigate("/InvoiceAssessement");
   };
   return (
     <NavbarContainer position="static">
@@ -29,7 +30,7 @@ const Navbar: React.FC = () => {
           </IconButton>
 
           <IconButton edge="end" color="inherit" aria-label="logout">
-            <StyledLink to="/" onClick={handleLogout}>
+            <StyledLink to="/" onClick={()=>handleLogout()}>
               <LogoutIcon />
             </StyledLink>
           </IconButton>
