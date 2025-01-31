@@ -194,7 +194,7 @@ const InvoiceForm: React.FC = () => {
 
    // Navigate to InvoiceManagement page once file is uploaded
    if (fileUploaded) {
-    navigate("/InvoiceManagement");
+    navigate("/Invoice");
   }
 
   const [fileUrl, setFileUrl] = useState<string | null>(null);

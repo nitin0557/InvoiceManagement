@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import InvoiceForm from './components/InvoiceForm/InvoiceForm';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login/Login';
