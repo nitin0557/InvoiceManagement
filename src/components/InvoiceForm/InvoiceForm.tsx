@@ -46,17 +46,6 @@ interface VendorDetailsValues {
 }
 
 const InvoiceForm: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("VENDOR_DETAILS");
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
-
-  const vendorRef = useRef<HTMLDivElement>(null);
-  const invoiceRef = useRef<HTMLDivElement>(null);
-  const expenseRef = useRef<HTMLDivElement>(null);
-  const commentRef = useRef<HTMLDivElement>(null);
-
   const initialValues: VendorDetailsValues = {
     vendorName: "",
     vendorNumber: "",
@@ -77,6 +66,19 @@ const InvoiceForm: React.FC = () => {
     description: "",
     comment: "",
   };
+
+  const [activeTab, setActiveTab] = useState<string>("VENDOR_DETAILS");
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [data,setData] = useState<VendorDetailsValues>(initialValues)
+
+  const vendorRef = useRef<HTMLDivElement>(null);
+  const invoiceRef = useRef<HTMLDivElement>(null);
+  const expenseRef = useRef<HTMLDivElement>(null);
+  const commentRef = useRef<HTMLDivElement>(null);
+
 
   console.log(initialValues);
 
@@ -133,6 +135,7 @@ const InvoiceForm: React.FC = () => {
     { resetForm }: { resetForm: Function }
   ) => {
     localStorage.setItem("invoiceData", JSON.stringify(values));
+    setData(values)
 
     setIsModalOpen(true);
 
@@ -199,7 +202,7 @@ const InvoiceForm: React.FC = () => {
     }
   }, [fileUploaded, navigate]); // Add fileUploaded and navigate to the dependency array
 
-  const handlePopulate = (setValues: Function) => {
+  const handlePopulate = () => {
     // Get data from localStorage
     const savedData = localStorage.getItem("invoiceData");
     
@@ -212,8 +215,7 @@ const InvoiceForm: React.FC = () => {
         console.log("Parsed Data from localStorage:", parsedData);
   
         // Populate the form fields with the saved data
-        setValues(parsedData); // This will dynamically update all form fields
-        Object.assign(initialValues, parsedData);
+        Object.assign(initialValues, data);
       } catch (error) {
         console.error("Error parsing data from localStorage:", error);
       }
@@ -314,7 +316,7 @@ const InvoiceForm: React.FC = () => {
                   <StyledButton type="submit" className="submit-btn">
                     Submit & New
                   </StyledButton>
-                  <StyledButton type="reset" className="submit-btn" onClick={() => handlePopulate(setValues)}>
+                  <StyledButton type="reset" className="submit-btn" onClick={()=>handlePopulate()}>
                     Populate Data
                   </StyledButton>
                 </ButtonWrapper>
