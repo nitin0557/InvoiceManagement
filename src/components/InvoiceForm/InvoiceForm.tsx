@@ -143,55 +143,59 @@ const InvoiceForm: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const [fileUploaded, setFileUploaded] = useState<boolean>(false); 
+  const navigate = useNavigate();
 
 
-const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const selectedFile = event.target.files ? event.target.files[0] : null;
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files ? event.target.files[0] : null;
 
-  if (!selectedFile) {
-    setFileError("No file selected.");
-    return;
-  }
-
-  const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
-  if (!allowedFileTypes.includes(selectedFile.type)) {
-    setFileError("Invalid file type. Only PDF, JPEG, and PNG are allowed.");
-    return;
-  }
-
-  const maxSize = 5 * 1024 * 1024; // 5MB
-  if (selectedFile.size > maxSize) {
-    setFileError("File size exceeds 5MB limit.");
-    return;
-  }
-
-  setFileError(null);
-
-  const reader = new FileReader();
-
-  reader.onloadend = () => {
-    const base64Data = reader.result;
-
-    if (typeof base64Data === "string") {
-      localStorage.setItem(
-        "invoiceFile",
-        JSON.stringify({
-          name: selectedFile.name,
-          size: selectedFile.size,
-          type: selectedFile.type,
-          base64: base64Data,
-        })
-      );
-      setUploadedFile(selectedFile);
-
-      const navigate = useNavigate();
-      navigate("/InvoiceManagement");
+    if (!selectedFile) {
+      setFileError("No file selected.");
+      return;
     }
+
+    const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
+    if (!allowedFileTypes.includes(selectedFile.type)) {
+      setFileError("Invalid file type. Only PDF, JPEG, and PNG are allowed.");
+      return;
+    }
+
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (selectedFile.size > maxSize) {
+      setFileError("File size exceeds 5MB limit.");
+      return;
+    }
+
+    setFileError(null);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64Data = reader.result;
+
+      if (typeof base64Data === "string") {
+        localStorage.setItem(
+          "invoiceFile",
+          JSON.stringify({
+            name: selectedFile.name,
+            size: selectedFile.size,
+            type: selectedFile.type,
+            base64: base64Data,
+          })
+        );
+        setUploadedFile(selectedFile);
+        setFileUploaded(true); // Mark file as uploaded
+      }
+    };
+
+    reader.readAsDataURL(selectedFile);
   };
 
-  reader.readAsDataURL(selectedFile);
-};
-
+   // Navigate to InvoiceManagement page once file is uploaded
+   if (fileUploaded) {
+    navigate("/InvoiceManagement");
+  }
 
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
