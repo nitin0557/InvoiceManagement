@@ -1,69 +1,59 @@
+Login System and Form Handling Application
 
-Loing Credentials
+This project implements a user authentication system with a login form, data persistence, form handling, and PDF rendering. It is built with React, TypeScript, Styled Components, and Formik for validation. The application is designed to handle form submissions, session management, and file uploads with LocalStorage for data persistence and react-pdf for rendering PDFs.
 
-username: nitin 
-password: nitin123
+Login Credentials
+Username: nitin
+Password: nitin123
 
-npm install 
+npm install
+Run the development server: 
 npm run start
+Build the project for production:
 npm run build
 
-
 Technology Stack
-React,HTML,CSS,StyledComponents,Typescript for building the user interface.
+React, HTML, CSS, Styled Components, and TypeScript for building the user interface.
 Formik for managing forms and validation.
 LocalStorage for data persistence.
 react-pdf for rendering PDFs.
-Also Covers FormHandling,Error Handling, Dynamic Handling
+The project covers Form Handling, Error Handling, and Dynamic Handling.
 
-
-
-
-
-
+Features
 1. Login System
-Login Form:
-Create a login form where users can enter their username and password.
-Validate the form inputs using Formik.
+Login Form
+The login form allows users to enter their credentials (username and password).
+Form validation is handled using Formik to ensure the inputs meet the required criteria.
 
+Session Management
+On successful login, the user's session is stored in LocalStorage.
+After login, the user is redirected to the main application interface.
 
-Session Management:
-Store the user’s session in localStorage upon successful login.
-Redirect the user to the main application interface after login.
+Auto-Login
+If the session exists in LocalStorage, users are automatically redirected to the main interface without needing to log in again.
+Logout Functionality
+A logout button clears the session from LocalStorage and redirects the user to the login page.
 
+3. Replicate the Design
+The application's UI replicates the provided design using React components and styling.
+The design is fully responsive and aligns with design specifications.
 
-Auto-Login:
-Automatically redirect users to the main application interface if their session exists in local storage.
+5. Functional Form Implementation
+A functional form is built using Formik, complete with input validation to ensure data integrity.
 
+7. Data Persistence with LocalStorage
+Form data is stored in LocalStorage upon submission.
+Data persists across page reloads, and previously entered data is pre-populated when revisited.
 
-Logout Functionality:
-Include a logout button to clear the user’s session from local storage and redirect to the login page.
+9. PDF Upload and Display
+Users can upload a PDF file from their local system.
+The uploaded PDF is rendered and displayed within the application using react-pdf.
 
+11. Populate Form Fields with Dummy Data
+A button is provided to populate all form fields with predefined dummy data, including a PDF view on the left side.
 
-2. Replicate the Design
-Accurately replicate the provided design using React components and styling.
-Ensure responsiveness and alignment with the design specifications.
-
-3. Functional Form Implementation
-Use Formik to build a functional form as per the design.
-Validate form inputs to ensure data integrity.
-
-4. Data Persistence with LocalStorage
-Store form data in localStorage upon submission.
-Ensure that the form data persists across page reloads and is pre-populated when the page is revisited.
-
-
-5. PDF Upload and Display
-PDF Upload Component:
-Implement a feature that allows users to upload a PDF file from their local system.
-Render and display the uploaded PDF within the application interface using a library like react-pdf.
-
-6. Populate Form Fields with Dummy Data
-Button Functionality:
-Add a button that, when clicked, populates all form fields and pdf view on the left side with predefined dummy data.
-
-
-Bonus Features 
-Form Validation: Implement comprehensive validation for all form fields.
-Error Handling: Display user-friendly error messages for invalid inputs.
-Dynamic Styling: Apply dynamic styles to indicate input validation status (e.g., error highlights).
+12. Included Bonus Features
+Typescript: For type checking.
+Form Validation: Comprehensive validation for all form fields using Formik.
+Error Handling: User-friendly error messages are displayed for invalid inputs.
+Dynamic Styling: Inputs are dynamically styled to indicate their validation status (e.g., error highlights).
