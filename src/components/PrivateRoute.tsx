@@ -8,7 +8,7 @@ interface PrivateRouteProps {
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   const userSession = localStorage.getItem("userSession");
 
-  return userSession ? element : <Navigate to="/Invoice" />;
+  return userSession ? element : <Navigate to="/InvoiceManagement" />;
 };
 
 export default PrivateRoute;

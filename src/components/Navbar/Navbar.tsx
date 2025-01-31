@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
     localStorage.removeItem("userSession")
     localStorage.removeItem("invoiceFile");
     
-    navigate("/InvoiceManagement");
+    navigate("/");
   };
   return (
     <NavbarContainer position="static">

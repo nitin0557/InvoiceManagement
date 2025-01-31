@@ -144,8 +144,8 @@ const InvoiceForm: React.FC = () => {
     setIsModalOpen(false);
   };
   const [fileUploaded, setFileUploaded] = useState<boolean>(false); 
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const navigate = useNavigate();
-
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null;
@@ -192,30 +192,43 @@ const InvoiceForm: React.FC = () => {
     reader.readAsDataURL(selectedFile);
   };
 
-   // Navigate to InvoiceManagement page once file is uploaded
-   if (fileUploaded) {
-    navigate("/Invoice");
-  }
-
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-
   useEffect(() => {
-    const storedFile = localStorage.getItem("invoiceFile");
-    const savedData = localStorage.getItem("invoiceData");
+    if (fileUploaded) {
+      // Navigate to InvoiceManagement page once file is uploaded
+      navigate("/InvoiceManagement");
+    }
+  }, [fileUploaded, navigate]); // Add fileUploaded and navigate to the dependency array
 
+  const handlePopulate = (setValues: Function) => {
+    // Get data from localStorage
+    const savedData = localStorage.getItem("invoiceData");
+    
+    // Check if the data exists in localStorage
+    if (savedData) {
+      try {
+        // Parse the data from localStorage
+        const parsedData = JSON.parse(savedData);
+  
+        console.log("Parsed Data from localStorage:", parsedData);
+  
+        // Populate the form fields with the saved data
+        setValues(parsedData); // This will dynamically update all form fields
+        Object.assign(initialValues, parsedData);
+      } catch (error) {
+        console.error("Error parsing data from localStorage:", error);
+      }
+    } else {
+      console.log("No saved data found in localStorage.");
+    }
+  
+    // Load file from localStorage if available
+    const storedFile = localStorage.getItem("invoiceFile");
     if (storedFile) {
       const fileData = JSON.parse(storedFile);
-
       setFileUrl(fileData.base64);
     }
-
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      console.log(parsedData);
-
-      Object.assign(initialValues, parsedData);
-    }
-  }, []);
+  };
+  
 
   return (
     <>
@@ -225,17 +238,16 @@ const InvoiceForm: React.FC = () => {
         {fileUrl ? (
           fileUrl.startsWith("data:application/pdf") ? (
             <InvoiceUpload>
-                <iframe
-                  src={fileUrl}
-                  title="PDF Viewer"
-                  width="100%"
-                  height="600px"
-                />
+              <iframe
+                src={fileUrl}
+                title="PDF Viewer"
+                width="100%"
+                height="600px"
+              />
             </InvoiceUpload>
           ) : (
             <InvoiceUpload>
-                <img src={fileUrl} alt="Uploaded File Preview" width="100%" />
-  
+              <img src={fileUrl} alt="Uploaded File Preview" width="100%" />
             </InvoiceUpload>
           )
         ) : (
@@ -269,7 +281,7 @@ const InvoiceForm: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ handleSubmit, resetForm }) => (
+            {({ handleSubmit, resetForm, setValues }) => (
               <Form onSubmit={handleSubmit}>
                 <FormSections>
                   <InvoiceTabs
@@ -302,7 +314,7 @@ const InvoiceForm: React.FC = () => {
                   <StyledButton type="submit" className="submit-btn">
                     Submit & New
                   </StyledButton>
-                  <StyledButton type="reset" className="submit-btn">
+                  <StyledButton type="reset" className="submit-btn" onClick={() => handlePopulate(setValues)}>
                     Populate Data
                   </StyledButton>
                 </ButtonWrapper>
