@@ -209,7 +209,7 @@ const InvoiceForm: React.FC = () => {
 
         console.log("Parsed Data from localStorage:", parsedData);
 
-        Object.assign(initialValues, data);
+        Object.assign(initialValues, parsedData);
       } catch (error) {
         console.error("Error parsing data from localStorage:", error);
       }
@@ -275,8 +275,8 @@ const InvoiceForm: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ handleSubmit, resetForm, setValues }) => (
-              <Form onSubmit={handleSubmit}>
+        
+              <Form>
                 <FormSections>
                   <InvoiceTabs
                     activeTab={activeTab}
@@ -317,7 +317,7 @@ const InvoiceForm: React.FC = () => {
                   </StyledButton>
                 </ButtonWrapper>
               </Form>
-            )}
+    
           </Formik>
         </FormDropdownWrapper>
 
