@@ -72,13 +72,12 @@ const InvoiceForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [data,setData] = useState<VendorDetailsValues>(initialValues)
+  const [data, setData] = useState<VendorDetailsValues>(initialValues);
 
   const vendorRef = useRef<HTMLDivElement>(null);
   const invoiceRef = useRef<HTMLDivElement>(null);
   const expenseRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
-
 
   console.log(initialValues);
 
@@ -135,7 +134,7 @@ const InvoiceForm: React.FC = () => {
     { resetForm }: { resetForm: Function }
   ) => {
     localStorage.setItem("invoiceData", JSON.stringify(values));
-    setData(values)
+    setData(values);
 
     setIsModalOpen(true);
 
@@ -146,7 +145,7 @@ const InvoiceForm: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const [fileUploaded, setFileUploaded] = useState<boolean>(false); 
+  const [fileUploaded, setFileUploaded] = useState<boolean>(false);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -164,7 +163,7 @@ const InvoiceForm: React.FC = () => {
       return;
     }
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
     if (selectedFile.size > maxSize) {
       setFileError("File size exceeds 5MB limit.");
       return;
@@ -188,7 +187,7 @@ const InvoiceForm: React.FC = () => {
           })
         );
         setUploadedFile(selectedFile);
-        setFileUploaded(true); // Mark file as uploaded
+        setFileUploaded(true);
       }
     };
 
@@ -197,24 +196,19 @@ const InvoiceForm: React.FC = () => {
 
   useEffect(() => {
     if (fileUploaded) {
-      // Navigate to InvoiceManagement page once file is uploaded
       navigate("/InvoiceManagement");
     }
-  }, [fileUploaded, navigate]); // Add fileUploaded and navigate to the dependency array
+  }, [fileUploaded, navigate]);
 
   const handlePopulate = () => {
-    // Get data from localStorage
     const savedData = localStorage.getItem("invoiceData");
-    
-    // Check if the data exists in localStorage
+
     if (savedData) {
       try {
-        // Parse the data from localStorage
         const parsedData = JSON.parse(savedData);
-  
+
         console.log("Parsed Data from localStorage:", parsedData);
-  
-        // Populate the form fields with the saved data
+
         Object.assign(initialValues, data);
       } catch (error) {
         console.error("Error parsing data from localStorage:", error);
@@ -222,15 +216,13 @@ const InvoiceForm: React.FC = () => {
     } else {
       console.log("No saved data found in localStorage.");
     }
-  
-    // Load file from localStorage if available
+
     const storedFile = localStorage.getItem("invoiceFile");
     if (storedFile) {
       const fileData = JSON.parse(storedFile);
       setFileUrl(fileData.base64);
     }
   };
-  
 
   return (
     <>
@@ -316,7 +308,11 @@ const InvoiceForm: React.FC = () => {
                   <StyledButton type="submit" className="submit-btn">
                     Submit & New
                   </StyledButton>
-                  <StyledButton type="reset" className="submit-btn" onClick={()=>handlePopulate()}>
+                  <StyledButton
+                    type="reset"
+                    className="submit-btn"
+                    onClick={() => handlePopulate()}
+                  >
                     Populate Data
                   </StyledButton>
                 </ButtonWrapper>
