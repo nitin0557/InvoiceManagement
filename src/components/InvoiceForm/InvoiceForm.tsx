@@ -22,6 +22,7 @@ import BackArrowSvg from "../../assets/Back Arrow.svg";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { InvoiceModal } from "./modal";
+import { useNavigate } from "react-router-dom";
 
 interface VendorDetailsValues {
   vendorName: string;
@@ -143,51 +144,54 @@ const InvoiceForm: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null;
 
-    if (!selectedFile) {
-      setFileError("No file selected.");
-      return;
+const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFile = event.target.files ? event.target.files[0] : null;
+
+  if (!selectedFile) {
+    setFileError("No file selected.");
+    return;
+  }
+
+  const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
+  if (!allowedFileTypes.includes(selectedFile.type)) {
+    setFileError("Invalid file type. Only PDF, JPEG, and PNG are allowed.");
+    return;
+  }
+
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (selectedFile.size > maxSize) {
+    setFileError("File size exceeds 5MB limit.");
+    return;
+  }
+
+  setFileError(null);
+
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+    const base64Data = reader.result;
+
+    if (typeof base64Data === "string") {
+      localStorage.setItem(
+        "invoiceFile",
+        JSON.stringify({
+          name: selectedFile.name,
+          size: selectedFile.size,
+          type: selectedFile.type,
+          base64: base64Data,
+        })
+      );
+      setUploadedFile(selectedFile);
+
+      const navigate = useNavigate();
+      navigate("/InvoiceManagement");
     }
-
-    const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
-    if (!allowedFileTypes.includes(selectedFile.type)) {
-      setFileError("Invalid file type. Only PDF, JPEG, and PNG are allowed.");
-      return;
-    }
-
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (selectedFile.size > maxSize) {
-      setFileError("File size exceeds 5MB limit.");
-      return;
-    }
-
-    setFileError(null);
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const base64Data = reader.result;
-
-      if (typeof base64Data === "string") {
-        localStorage.setItem(
-          "invoiceFile",
-          JSON.stringify({
-            name: selectedFile.name,
-            size: selectedFile.size,
-            type: selectedFile.type,
-            base64: base64Data,
-          })
-        );
-        setUploadedFile(selectedFile);
-
-        window.location.reload();
-      }
-    };
-
-    reader.readAsDataURL(selectedFile);
   };
+
+  reader.readAsDataURL(selectedFile);
+};
+
 
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
