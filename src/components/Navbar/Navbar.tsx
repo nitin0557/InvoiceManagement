@@ -14,7 +14,9 @@ const Navbar: React.FC = () => {
   
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem("userSession");
+    localStorage.removeItem("userSession")
+    localStorage.removeItem("invoiceFile");
+    
     navigate("/InvoiceManagement");
   };
   return (
@@ -30,7 +32,7 @@ const Navbar: React.FC = () => {
           </IconButton>
 
           <IconButton edge="end" color="inherit" aria-label="logout">
-            <StyledLink to="/InvoiceManagement">
+            <StyledLink onClick={handleLogout}>
               <LogoutIcon />
             </StyledLink>
           </IconButton>

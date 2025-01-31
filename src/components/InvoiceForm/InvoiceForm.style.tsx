@@ -91,6 +91,7 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background: #fff;
+  column-gap: 12px;
 `;
 
 export const FormSections = styled.div`
@@ -117,7 +118,6 @@ export const StyledButton = styled.button`
     background-color: #fff;
     color: #333;
     border: 1px solid #ccc;
-    margin-right: 10px;
 
     &:hover {
       background-color: #eee;

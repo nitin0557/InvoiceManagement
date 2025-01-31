@@ -15,7 +15,7 @@ export const NavbarRightSection = styled.div`
   width: 100%;
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled.div`
   color: inherit;
   text-decoration: none;
 `;

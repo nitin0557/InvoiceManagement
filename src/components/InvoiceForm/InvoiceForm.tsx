@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import InvoiceDetails from "../InvoiceDetails/InvoiceDetails";
 import ExpenseDetails from "../ExpenseDetails/ExpenseDetails";
 import CommentDetails from "../CommentDetails/CommentDetails";
@@ -28,7 +28,7 @@ interface VendorDetailsValues {
   vendorNumber: string;
   vendorDate: string;
   vendorDescription: string;
-  poNumber: number;
+  purchaseNumber: number;
   invoiceNumber: string;
   totalAmount: number;
   invoiceDate: string;
@@ -56,6 +56,29 @@ const InvoiceForm: React.FC = () => {
   const expenseRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
+  const initialValues: VendorDetailsValues = {
+    vendorName: "",
+    vendorNumber: "",
+    totalAmount: 0,
+    vendorDate: "",
+    paymentTerms: "",
+    dueDate: "",
+    glPostDate: "",
+    vendorDescription: "",
+    purchaseNumber: 0,
+    invoiceNumber: "",
+    invoiceDate: "",
+    invoiceDescription: "",
+    lineAmount: 0,
+    account: "",
+    department: "",
+    location: "",
+    description: "",
+    comment: "",
+  };
+
+  console.log(initialValues);
+
   const handleTabsControl = (currentTab: string) => {
     setActiveTab(currentTab);
 
@@ -77,27 +100,6 @@ const InvoiceForm: React.FC = () => {
     }
   };
 
-  const initialValues: VendorDetailsValues = {
-    vendorName: "",
-    vendorNumber: "",
-    totalAmount: 0,
-    vendorDate: "",
-    paymentTerms: "",
-    dueDate: "",
-    glPostDate: "",
-    vendorDescription: "",
-    poNumber: 0,
-    invoiceNumber: "",
-    invoiceDate: "",
-    invoiceDescription: "",
-    lineAmount: 0,
-    account: "",
-    department: "",
-    location: "",
-    description: "",
-    comment: "",
-  };
-
   const validationSchema = Yup.object({
     vendorName: Yup.string().required("Vendor Name is required"),
     vendorNumber: Yup.string().required("Vendor Number is required"),
@@ -108,7 +110,7 @@ const InvoiceForm: React.FC = () => {
     paymentTerms: Yup.string().required("Payment Terms are required"),
     dueDate: Yup.string().required("Due Date is required"),
     glPostDate: Yup.string().required("GL Post Date is required"),
-    poNumber: Yup.string().required("PO Number is required"),
+    purchaseNumber: Yup.string().required("PO Number is required"),
     vendorDescription: Yup.string().required("Vendor Description is required"),
     invoiceNumber: Yup.string().required("Invoice Number is required"),
     invoiceDate: Yup.string().required("Invoice Date is required"),
@@ -163,44 +165,95 @@ const InvoiceForm: React.FC = () => {
 
     setFileError(null);
 
-    setUploadedFile(selectedFile);
+    const reader = new FileReader();
 
-    localStorage.setItem(
-      "invoiceFile",
-      JSON.stringify({
-        name: selectedFile.name,
-        size: selectedFile.size,
-        type: selectedFile.type,
-      })
-    );
+    reader.onloadend = () => {
+      const base64Data = reader.result;
+
+      if (typeof base64Data === "string") {
+        localStorage.setItem(
+          "invoiceFile",
+          JSON.stringify({
+            name: selectedFile.name,
+            size: selectedFile.size,
+            type: selectedFile.type,
+            base64: base64Data,
+          })
+        );
+        setUploadedFile(selectedFile);
+
+        window.location.reload();
+      }
+    };
+
+    reader.readAsDataURL(selectedFile);
   };
+
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedFile = localStorage.getItem("invoiceFile");
+    const savedData = localStorage.getItem("invoiceData");
+
+    if (storedFile) {
+      const fileData = JSON.parse(storedFile);
+
+      setFileUrl(fileData.base64);
+    }
+
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      console.log(parsedData);
+
+      Object.assign(initialValues, parsedData);
+    }
+  }, []);
 
   return (
     <>
       <Navbar />
 
       <InvoiceFormContainer>
-        <InvoiceUpload>
-          <Title>
-            <img src={BackArrowSvg} alt="back-arrow-icon" /> Create New Invoice
-          </Title>
-          <UploadArea>
-            <UploadText>Upload Your Invoice</UploadText>
-            <span>To auto-populate fields and save time</span>
-            <div className="image-container">
-              <img
-                src="https://www.tcieduhub.in/public/photos/docs20.gif"
-                alt="movable_img"
+        {fileUrl ? (
+          fileUrl.startsWith("data:application/pdf") ? (
+            <InvoiceUpload>
+                <iframe
+                  src={fileUrl}
+                  title="PDF Viewer"
+                  width="100%"
+                  height="600px"
+                />
+            </InvoiceUpload>
+          ) : (
+            <InvoiceUpload>
+                <img src={fileUrl} alt="Uploaded File Preview" width="100%" />
+  
+            </InvoiceUpload>
+          )
+        ) : (
+          <InvoiceUpload>
+            <Title>
+              <img src={BackArrowSvg} alt="back-arrow-icon" /> Create New
+              Invoice
+            </Title>
+            <UploadArea>
+              <UploadText>Upload Your Invoice</UploadText>
+              <span>To auto-populate fields and save time</span>
+              <div className="image-container">
+                <img
+                  src="https://www.tcieduhub.in/public/photos/docs20.gif"
+                  alt="movable_img"
+                />
+              </div>
+              <UploadInvoice
+                file={uploadedFile}
+                onFileUpload={handleFileUpload}
               />
-            </div>
-            <UploadInvoice
-              file={uploadedFile}
-              onFileUpload={handleFileUpload}
-            />
-            {fileError && <p style={{ color: "red" }}>{fileError}</p>}
-            {uploadedFile && <p>Uploaded File: {uploadedFile.name}</p>}
-          </UploadArea>
-        </InvoiceUpload>
+              {uploadedFile && <p>Uploaded File: {uploadedFile.name}</p>}
+              {fileError && <p style={{ color: "red" }}>{fileError}</p>}
+            </UploadArea>
+          </InvoiceUpload>
+        )}
 
         <FormDropdownWrapper>
           <Formik
@@ -240,6 +293,9 @@ const InvoiceForm: React.FC = () => {
                   </StyledButton>
                   <StyledButton type="submit" className="submit-btn">
                     Submit & New
+                  </StyledButton>
+                  <StyledButton type="reset" className="submit-btn">
+                    Populate Data
                   </StyledButton>
                 </ButtonWrapper>
               </Form>

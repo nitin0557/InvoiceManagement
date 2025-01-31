@@ -33,16 +33,17 @@ const VendorDetails: React.FC = () => {
       </FormTitle>
 
       <h3> Vendor Information</h3>
-
+      
       <FormField>
         <Label htmlFor="vendorName">
-          Vendor Number <span className="asterisk">*</span>
+          Vendor Name <span className="asterisk">*</span>
         </Label>
         <SelectField as="select" name="vendorName" className="vendor-name">
-          <option value="">Vendor</option>
-          <option value="Net 30">Net 30</option>
-          <option value="Net 45">Net 45</option>
-          <option value="Net 60">Net 60</option>
+          <option value="">Select</option>
+          <option value="A1 Exterminators">A1 Exterminators</option>
+          <option value="A2 Exterminators">A2 Exterminators</option>
+          <option value="A3 Exterminators">A3 Exterminators</option>
+        
         </SelectField>
         <ErrorMessageStyled name="vendorName" component="div" />
       </FormField>
@@ -110,7 +111,7 @@ const VendorDetails: React.FC = () => {
                 <option value="">Select</option>
                 <option value="Net 30">Net 30</option>
                 <option value="Net 45">Net 45</option>
-                <option value="Net 60">Net 60</option>
+                <option value="Net 60">Net 60</option>    
               </SelectField>
               <ErrorMessageStyled name="paymentTerms" component="div" />
             </FormField>

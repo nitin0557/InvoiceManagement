@@ -29,13 +29,13 @@ const InvoiceDetails: React.FC = () => {
         <Label htmlFor="purchaseNumber">
           Purchase Order Number <span className="asterisk">*</span>
         </Label>
-        <SelectField as="select" name="poNumber" className="poc-number">
+        <SelectField as="select" name="purchaseNumber" className="poc-number">
           <option value="">Select</option>
-          <option value="Net 30">Net 30</option>
-          <option value="Net 45">Net 45</option>
-          <option value="Net 60">Net 60</option>
+          <option value="12345">12345</option>
+          <option value="2345">2345</option>
+          <option value="3456">3456</option>
         </SelectField>
-        <ErrorMessageStyled name="poNumber" component="div" />
+        <ErrorMessageStyled name="purchaseNumber" component="div" />
       </FormField>
 
       <h3> Invoice Details</h3>
