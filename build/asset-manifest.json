@@ -1,19 +1,23 @@
 {
   "files": {
-    "main.css": "/InvoiceManagement/static/css/main.2aff10a2.css",
-    "main.js": "/InvoiceManagement/static/js/main.fdd9f10d.js",
+    "main.css": "/InvoiceManagement/static/css/main.d69d38bd.css",
+    "main.js": "/InvoiceManagement/static/js/main.40661614.js",
     "static/media/login.png": "/InvoiceManagement/static/media/login.d153bec534a9459bff5a.png",
+    "static/media/Currency Symbol.svg": "/InvoiceManagement/static/media/Currency Symbol.c74a753f3c065930852c687d038c5987.svg",
     "static/media/Icon3.svg": "/InvoiceManagement/static/media/Icon3.81d3a389332e541a7ab92330fe3cc260.svg",
     "static/media/Icon4.svg": "/InvoiceManagement/static/media/Icon4.87d11907976ac7f75bc2aa92b05febe4.svg",
+    "static/media/Icon5.svg": "/InvoiceManagement/static/media/Icon5.76e54720ebfcf399a948936d21b6e97a.svg",
     "index.html": "/InvoiceManagement/index.html",
+    "static/media/Icon.svg": "/InvoiceManagement/static/media/Icon.5832c03442d2d0e9184591e6b3055014.svg",
     "static/media/Icon2.svg": "/InvoiceManagement/static/media/Icon2.7c2a03bb6750569752953c57fc98faf0.svg",
     "static/media/upload.svg": "/InvoiceManagement/static/media/upload.4e066f51e44986c3e7ebb30b2dcae16d.svg",
     "static/media/Back Arrow.svg": "/InvoiceManagement/static/media/Back Arrow.da748acc5e11c6f69cee0a4b42c47da1.svg",
-    "main.2aff10a2.css.map": "/InvoiceManagement/static/css/main.2aff10a2.css.map",
-    "main.fdd9f10d.js.map": "/InvoiceManagement/static/js/main.fdd9f10d.js.map"
+    "static/media/chevron-down.svg": "/InvoiceManagement/static/media/chevron-down.ef77aa28dab77fce479f98f2a6bdb0a5.svg",
+    "main.d69d38bd.css.map": "/InvoiceManagement/static/css/main.d69d38bd.css.map",
+    "main.40661614.js.map": "/InvoiceManagement/static/js/main.40661614.js.map"
   },
   "entrypoints": [
-    "static/css/main.2aff10a2.css",
-    "static/js/main.fdd9f10d.js"
+    "static/css/main.d69d38bd.css",
+    "static/js/main.40661614.js"
   ]
 }
