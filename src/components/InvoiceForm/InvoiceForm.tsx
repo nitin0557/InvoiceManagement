@@ -23,12 +23,19 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { InvoiceModal } from "./modal";
 import { useNavigate } from "react-router-dom";
+// import GenericForm from "../InvoiceDetails/GenericForm";
+import { invoiceFields } from "../../constants/InvoiceFormConstants";
+import { vendorFields } from "../../constants/VendorFormConstants";
 
 interface VendorDetailsValues {
   vendorName: string;
-  vendorNumber: string;
+  vendorNumber: number;
   vendorDate: string;
+  vendorTerms: string;
   vendorDescription: string;
+  vendorDueDate: string;
+  vendorPostDate: string;
+  vendorTotalAmount: number;
   purchaseNumber: number;
   invoiceNumber: string;
   totalAmount: number;
@@ -48,13 +55,17 @@ interface VendorDetailsValues {
 const InvoiceForm: React.FC = () => {
   const initialValues: VendorDetailsValues = {
     vendorName: "",
-    vendorNumber: "",
+    vendorNumber: 0,
+    vendorTerms: "",
+    vendorTotalAmount: 0,
+    vendorDueDate: "",
+    vendorPostDate: "",
+    vendorDescription: "",
     totalAmount: 0,
     vendorDate: "",
     paymentTerms: "",
     dueDate: "",
     glPostDate: "",
-    vendorDescription: "",
     purchaseNumber: 0,
     invoiceNumber: "",
     invoiceDate: "",
@@ -67,19 +78,22 @@ const InvoiceForm: React.FC = () => {
     comment: "",
   };
 
+
   const [activeTab, setActiveTab] = useState<string>("VENDOR_DETAILS");
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [data, setData] = useState<VendorDetailsValues>(initialValues);
+  const [fileUploaded, setFileUploaded] = useState<boolean>(false);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const vendorRef = useRef<HTMLDivElement>(null);
   const invoiceRef = useRef<HTMLDivElement>(null);
   const expenseRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
-  console.log(initialValues);
+
 
   const handleTabsControl = (currentTab: string) => {
     setActiveTab(currentTab);
@@ -104,24 +118,22 @@ const InvoiceForm: React.FC = () => {
 
   const validationSchema = Yup.object({
     vendorName: Yup.string().required("Vendor Name is required"),
-    vendorNumber: Yup.string().required("Vendor Number is required"),
-    totalAmount: Yup.number()
-      .min(0, "Amount must be positive")
-      .required("Total Amount is required"),
+    vendorNumber: Yup.number().min(0, "Vendor Number must be positive").required("Vendor Number is required"),
+    totalAmount: Yup.number().min(0, "Amount must be positive").required("Total Amount is required"),
     vendorDate: Yup.string().required("Vendor Date is required"),
+    vendorTerms:  Yup.string().required("Vendor Terms is required"),
+    vendorTotalAmount:  Yup.number().min(0, "Vendor Total amount must be positive").required("Vendor Total Amount is required"),
+    vendorDueDate:  Yup.string().required("Vendor Due Date is required"),
+    vendorPostDate:  Yup.string().required("Vendor Post Date is required"),
     paymentTerms: Yup.string().required("Payment Terms are required"),
     dueDate: Yup.string().required("Due Date is required"),
     glPostDate: Yup.string().required("GL Post Date is required"),
-    purchaseNumber: Yup.string().required("PO Number is required"),
+    purchaseNumber: Yup.number() .min(0, "Purchase Number must be positive").required("Purchase Number is required"),
     vendorDescription: Yup.string().required("Vendor Description is required"),
     invoiceNumber: Yup.string().required("Invoice Number is required"),
     invoiceDate: Yup.string().required("Invoice Date is required"),
-    invoiceDescription: Yup.string().required(
-      "Invoice Description is required"
-    ),
-    lineAmount: Yup.number()
-      .min(0, "Amount must be positive")
-      .required("Line Amount is required"),
+    invoiceDescription: Yup.string().required("Invoice Description is required"),
+    lineAmount: Yup.number().min(0, "Amount must be positive").required("Line Amount is required"),
     account: Yup.string().required("Account is required"),
     department: Yup.string().required("Department is required"),
     location: Yup.string().required("Location is required"),
@@ -134,7 +146,6 @@ const InvoiceForm: React.FC = () => {
     { resetForm }: { resetForm: Function }
   ) => {
     localStorage.setItem("invoiceData", JSON.stringify(values));
-    setData(values);
 
     setIsModalOpen(true);
 
@@ -145,9 +156,6 @@ const InvoiceForm: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const [fileUploaded, setFileUploaded] = useState<boolean>(false);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files ? event.target.files[0] : null;
@@ -206,9 +214,7 @@ const InvoiceForm: React.FC = () => {
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
-
-        console.log("Parsed Data from localStorage:", parsedData);
-
+        
         Object.assign(initialValues, parsedData);
       } catch (error) {
         console.error("Error parsing data from localStorage:", error);
@@ -232,16 +238,20 @@ const InvoiceForm: React.FC = () => {
         {fileUrl ? (
           fileUrl.startsWith("data:application/pdf") ? (
             <InvoiceUpload>
-              <iframe
-                src={fileUrl}
-                title="PDF Viewer"
-                width="100%"
-                height="600px"
-              />
+              <UploadArea>
+                <iframe
+                  src={fileUrl}
+                  title="PDF Viewer"
+                  width="100%"
+                  height="600px"
+                />
+              </UploadArea>
             </InvoiceUpload>
           ) : (
             <InvoiceUpload>
-              <img src={fileUrl} alt="Uploaded File Preview" width="100%" />
+              <UploadArea>
+                <img src={fileUrl} alt="Uploaded File Preview" width="100%" />
+              </UploadArea>
             </InvoiceUpload>
           )
         ) : (
@@ -275,49 +285,47 @@ const InvoiceForm: React.FC = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-        
-              <Form>
-                <FormSections>
-                  <InvoiceTabs
-                    activeTab={activeTab}
-                    handleTabsControl={handleTabsControl}
-                  />
+            <Form>
+              <FormSections>
+                <InvoiceTabs
+                  activeTab={activeTab}
+                  handleTabsControl={handleTabsControl}
+                />
 
-                  <div ref={vendorRef}>
-                    <VendorDetails />
-                  </div>
+                <div ref={vendorRef}>
+                  <VendorDetails />
+                </div>
 
-                  <div ref={invoiceRef}>
-                    <InvoiceDetails />
-                  </div>
+                <div ref={invoiceRef}>
+                  <InvoiceDetails />
+                </div>
 
-                  <div ref={expenseRef}>
-                    <ExpenseDetails />
-                  </div>
+                <div ref={expenseRef}>
+                  <ExpenseDetails />
+                </div>
 
-                  <div ref={commentRef}>
-                    <CommentDetails />
-                  </div>
-                </FormSections>
+                <div ref={commentRef}>
+                  <CommentDetails />
+                </div>
+              </FormSections>
 
-                <ButtonWrapper>
-                  <MoreVertOutlinedIcon />
-                  <StyledButton type="button" className="save-btn">
-                    Save as Draft
-                  </StyledButton>
-                  <StyledButton type="submit" className="submit-btn">
-                    Submit & New
-                  </StyledButton>
-                  <StyledButton
-                    type="reset"
-                    className="submit-btn"
-                    onClick={() => handlePopulate()}
-                  >
-                    Populate Data
-                  </StyledButton>
-                </ButtonWrapper>
-              </Form>
-    
+              <ButtonWrapper>
+                <MoreVertOutlinedIcon />
+                <StyledButton type="button" className="save-btn">
+                  Save as Draft
+                </StyledButton>
+                <StyledButton type="submit" className="submit-btn">
+                  Submit & New
+                </StyledButton>
+                <StyledButton
+                  type="reset"
+                  className="submit-btn"
+                  onClick={() => handlePopulate()}
+                >
+                  Populate Data
+                </StyledButton>
+              </ButtonWrapper>
+            </Form>
           </Formik>
         </FormDropdownWrapper>
 

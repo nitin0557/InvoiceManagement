@@ -27,13 +27,12 @@ const CommentDetails: React.FC = () => {
             name="comment"
             as="textarea"
             placeholder="Add a comment and @Name to tag someone"
+            validate={false}
           />
           <SendIconWrapper>
             <img src={sendicon} alt="send-icon" />
           </SendIconWrapper>
         </FieldWrapper>
-
-        <ErrorMessage name="comment" component="div" className="error-text" />
       </FormField>
     </FormContainer>
   );

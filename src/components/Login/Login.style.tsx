@@ -73,6 +73,7 @@ export const Input = styled.input`
   height: 40px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  
 `;
 
 export const ButtonWrapper = styled.div`

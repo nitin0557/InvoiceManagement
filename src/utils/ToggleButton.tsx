@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { ToggleTabs } from "./ToggleTabs";
+import { PriceToggleTabs } from "./PriceToggleTabs";
 
 const PriceInputContainer = styled.div`
   display: flex;
@@ -8,7 +9,6 @@ const PriceInputContainer = styled.div`
 
   padding: 8px;
   overflow: hidden;
-  width: fit-content;
 `;
 
 const PriceText = styled.span`
@@ -34,15 +34,19 @@ const InputField = styled.input`
 
 export const ToggleButtonComponent: React.FC = () => {
   const [isPercentage, setIsPercentage] = useState("$");
+  const [isPricePercentage, setIsPricePercentage] = useState("$0.00");
 
   const handleToggle = (tab: any) => {
     setIsPercentage(tab);
   };
 
+  const handlePriceToggle = (tab: any) => {
+    setIsPricePercentage(tab);
+  };
+
   return (
     <PriceInputContainer>
-      <PriceText>$0.00 / $0.00</PriceText>
-      <InputField type="number" placeholder="0.00" />
+       <PriceToggleTabs activeTab={isPercentage} handleTabsControl={handlePriceToggle} />
       <ToggleTabs activeTab={isPercentage} handleTabsControl={handleToggle} />
     </PriceInputContainer>
   );

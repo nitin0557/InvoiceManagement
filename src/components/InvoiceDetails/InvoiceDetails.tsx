@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { Formik, Field, Form } from "formik";
 import {
   ErrorMessageStyled,
   FormField,
@@ -7,18 +7,28 @@ import {
   FormWrapper,
   InputField,
   Label,
-  SelectField,
-  TextareaField,
+  TextareaFieldStyled,
 } from "./InvoiceDetails.style";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+import { SelectField } from "../../commonComponents/SelectField";
+import { invoiceFields } from "../../constants/InvoiceFormConstants";
+import "react-datepicker/dist/react-datepicker.css"; // Import the datepicker styles
+import { DatePicker } from "../../commonComponents/DatePicker";
+import { InputFieldComponent } from "../../commonComponents/InputField";
+import invoiceicon from "../../assets/Icon2.svg";
 
 const InvoiceDetails: React.FC = () => {
+  const purchaseOptions =
+    invoiceFields.find((item) => item.name === "purchaseNumber")?.options || [];
+  const invoiceNumberOptions =
+    invoiceFields.find((item) => item.name === "invoiceNumber")?.options || [];
+  const paymentTermsOptions =
+    invoiceFields.find((item) => item.name === "paymentTerms")?.options || [];
+
   return (
     <FormWrapper>
       <FormTitle>
-        {" "}
         <span className="icon">
-          <ReceiptOutlinedIcon />
+          <img src={invoiceicon} alt="invoice_icon"/>
         </span>
         Invoice Details
       </FormTitle>
@@ -29,12 +39,13 @@ const InvoiceDetails: React.FC = () => {
         <Label htmlFor="purchaseNumber">
           Purchase Order Number <span className="asterisk">*</span>
         </Label>
-        <SelectField as="select" name="purchaseNumber" className="poc-number">
-          <option value="">Select</option>
-          <option value="12345">12345</option>
-          <option value="2345">2345</option>
-          <option value="3456">3456</option>
-        </SelectField>
+        <SelectField
+          name="purchaseNumber"
+          options={purchaseOptions}
+          required={true}
+          className="purchaseNumber"
+          placeholder="Purchase Number"
+        />
         <ErrorMessageStyled name="purchaseNumber" component="div" />
       </FormField>
 
@@ -44,7 +55,13 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="invoiceNumber">
             Invoice Number <span className="asterisk">*</span>
           </Label>
-          <InputField name="invoiceNumber" placeholder="Select Vendor " />
+          <SelectField
+            name="invoiceNumber"
+            options={invoiceNumberOptions}
+            required={true}
+            className="poc-number"
+            placeholder="Select Vendor"
+          />
           <ErrorMessageStyled name="invoiceNumber" component="div" />
         </FormField>
 
@@ -52,7 +69,13 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="invoiceDate">
             Invoice Date <span className="asterisk">*</span>
           </Label>
-          <InputField name="invoiceDate" type="date" />
+
+          <DatePicker
+            name="invoiceDate"
+            type="date"
+            placeholder="Invoice Date"
+            required={true}
+          />
           <ErrorMessageStyled name="invoiceDate" component="div" />
         </FormField>
 
@@ -60,7 +83,12 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="totalAmount">
             Total Amount <span className="asterisk">*</span>
           </Label>
-          <InputField name="totalAmount" type="number" />
+          <InputFieldComponent
+            name="totalAmount"
+            type="number"
+            placeholder="Total Amount"
+            required={true}
+          />
           <ErrorMessageStyled name="totalAmount" component="div" />
         </FormField>
 
@@ -68,12 +96,13 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="paymentTerms">
             Payment Terms <span className="asterisk">*</span>
           </Label>
-          <SelectField as="select" name="paymentTerms" className="payment-term">
-            <option value="">Select</option>
-            <option value="Net 30">Net 30</option>
-            <option value="Net 45">Net 45</option>
-            <option value="Net 60">Net 60</option>
-          </SelectField>
+          <SelectField
+            name="paymentTerms"
+            options={paymentTermsOptions}
+            required={true}
+            className="payment-term"
+            placeholder="Payment Terms"
+          />
           <ErrorMessageStyled name="paymentTerms" component="div" />
         </FormField>
 
@@ -81,7 +110,12 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="dueDate">
             Invoice Due Date <span className="asterisk">*</span>
           </Label>
-          <InputField name="dueDate" type="date" />
+          <DatePicker
+            name="dueDate"
+            type="date"
+            placeholder="Due Date"
+            required={true}
+          />
           <ErrorMessageStyled name="dueDate" component="div" />
         </FormField>
 
@@ -89,7 +123,12 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="glPostDate">
             GL Post Date <span className="asterisk">*</span>
           </Label>
-          <InputField name="glPostDate" type="date" />
+          <DatePicker
+            name="glPostDate"
+            type="date"
+            placeholder="glPost Date"
+            required={true}
+          />
           <ErrorMessageStyled name="glPostDate" component="div" />
         </FormField>
 
@@ -97,7 +136,7 @@ const InvoiceDetails: React.FC = () => {
           <Label htmlFor="invoiceDescription">
             Invoice Description <span className="asterisk">*</span>
           </Label>
-          <TextareaField
+          <TextareaFieldStyled
             name="invoiceDescription"
             placeholder="Invoice Description"
           />

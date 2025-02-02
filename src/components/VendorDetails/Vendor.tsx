@@ -5,15 +5,17 @@ import {
   FormField,
   FormTitle,
   FormWrapper,
-  InputField,
   Label,
-  SelectField,
   TextareaField,
 } from "./Vendor.style";
-import icon2 from "../../assets/Icon2.svg";
+import icon from "../../assets/Icon.svg";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import { invoiceFields } from "../../constants/InvoiceFormConstants";
+import { SelectField } from "../../commonComponents/SelectField";
+import { vendorFields } from "../../constants/VendorFormConstants";
+import { InputFieldComponent } from "../../commonComponents/InputField";
+import {DatePicker} from "../../commonComponents/DatePicker";
 
 const VendorDetails: React.FC = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -21,35 +23,40 @@ const VendorDetails: React.FC = () => {
   const handleClick = () => {
     setShow(!show);
   };
+  const vendorNameOptions =
+    vendorFields.find((item) => item.name === "vendorName")?.options || [];
+  const purchaseOptions =
+    vendorFields.find((item) => item.name === "VendorTerms")?.options || [];
+  const venderNumberOptions =
+    vendorFields.find((item) => item.name === "vendorNumber")?.options || [];
 
   return (
     <FormWrapper>
       <FormTitle>
         {" "}
         <span className="icon">
-          <img src={icon2} alt="icon2" />{" "}
+          <img src={icon} alt="vendor_icon" />{" "}
         </span>
         Vendor Details
       </FormTitle>
 
       <h3> Vendor Information</h3>
-      
+
       <FormField>
         <Label htmlFor="vendorName">
           Vendor Name <span className="asterisk">*</span>
         </Label>
-        <SelectField as="select" name="vendorName" className="vendor-name">
-          <option value="">Select</option>
-          <option value="A1 Exterminators">A1 Exterminators</option>
-          <option value="A2 Exterminators">A2 Exterminators</option>
-          <option value="A3 Exterminators">A3 Exterminators</option>
-        
-        </SelectField>
+        <SelectField
+          name="vendorName"
+          options={vendorNameOptions}
+          required={true}
+          className="vendorName"
+          placeholder="vendor Name"
+        />
         <ErrorMessageStyled name="vendorName" component="div" />
       </FormField>
 
       <p className="view-vendor-text" onClick={handleClick}>
-        {" "}
         {show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} View Vendor
         Details
       </p>
@@ -61,7 +68,14 @@ const VendorDetails: React.FC = () => {
               <Label htmlFor="vendorNumber">
                 Vendor Number <span className="asterisk">*</span>
               </Label>
-              <InputField name="vendorNumber" placeholder="vendorNumber" />
+              {/* <InputField name="vendorNumber" placeholder="vendorNumber" /> */}
+              <SelectField
+                name="vendorNumber"
+                options={venderNumberOptions}
+                required={true}
+                className="vendorNumber"
+                placeholder="vendor Number"
+              />
               <ErrorMessageStyled name="vendorNumber" component="div" />
             </FormField>
 
@@ -72,64 +86,64 @@ const VendorDetails: React.FC = () => {
                   <span className="asterisk">*</span>
                 </span>
               </Label>
-              <InputField
+              <DatePicker
                 name="vendorDate"
                 type="date"
                 placeholder="Vendor Date"
+                required={true}
               />
               <ErrorMessageStyled name="vendorDate" component="div" />
             </FormField>
 
             <FormField>
-              <Label htmlFor="totalAmount">
+              <Label htmlFor="vendorTotalAmount">
                 Total Amount{" "}
                 <span className="asterisk">
                   <span className="asterisk">*</span>
                 </span>
               </Label>
-              <InputField
-                name="totalAmount"
+              <InputFieldComponent
+                name="vendorTotalAmount"
                 type="number"
-                placeholder="Total Amount"
+                placeholder="Vendor Total Amount"
+                required={true}
               />
-              <ErrorMessageStyled name="totalAmount" component="div" />
+              <ErrorMessageStyled name="vendorTotalAmount" component="div" />
             </FormField>
 
             <FormField>
-              <Label htmlFor="paymentTerms">
-                Payment Terms{" "}
+              <Label htmlFor="vendorTerms">
+                Vendor Terms
                 <span className="asterisk">
                   <span className="asterisk">*</span>
                 </span>
               </Label>
+
               <SelectField
-                as="select"
-                name="paymentTerms"
-                className="payment-term"
-                placeholder="Payment Terms"
-              >
-                <option value="">Select</option>
-                <option value="Net 30">Net 30</option>
-                <option value="Net 45">Net 45</option>
-                <option value="Net 60">Net 60</option>    
-              </SelectField>
-              <ErrorMessageStyled name="paymentTerms" component="div" />
+                name="vendorTerms"
+                options={purchaseOptions}
+                required={true}
+                className="vendor-term"
+                placeholder="Vendor Terms"
+              />
+
+              <ErrorMessageStyled name="vendorTerms" component="div" />
             </FormField>
 
             <FormField>
-              <Label htmlFor="dueDate">
-                Due Date <span className="asterisk">*</span>
+              <Label htmlFor="vendorDueDate">
+                Vendor Date <span className="asterisk">*</span>
               </Label>
-              <InputField name="dueDate" type="date" />
-              <ErrorMessageStyled name="dueDate" component="div" />
+              <DatePicker name="vendorDueDate" type="date" required={true} />
+              <ErrorMessageStyled name="vendorDueDate" component="div" />
             </FormField>
 
             <FormField>
-              <Label htmlFor="glPostDate">
-                GL Post Date <span className="asterisk">*</span>
+              <Label htmlFor="vendorPostDate">
+                Vendor Post Date <span className="asterisk">*</span>
               </Label>
-              <InputField name="glPostDate" type="date" />
-              <ErrorMessageStyled name="glPostDate" component="div" />
+              <DatePicker name="vendorPostDate" type="date" required={true}/>
+              <ErrorMessageStyled name="vendorPostDate" component="div" />
             </FormField>
 
             <FormField className="vendor-desc">

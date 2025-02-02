@@ -48,13 +48,118 @@ export const FormTitle = styled.h2`
 
 export const FormField = styled.div`
   margin-bottom: 15px;
+  position: relative;
+
+  .custom-date-selector {
+    position: relative;
+
+    .calender-icon {
+      top: 50%;
+      position: absolute;
+      left: 15px;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+  }
 
   .payment-term {
     width: 324px;
-    height: 44px;
+    height: 40px;
     color: #a0abbb;
   }
+
+  .custom-input-selector {
+    position: relative;
+    .dollar-icon {
+      position: absolute;
+      top: 50%;
+      left: 2px;
+      transform: translateY(-51%);
+      background: #e7eaee;
+      width: 40px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+    .usd-text {
+      right: 24px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .custom-select {
+    position: relative;
+
+    .select-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .vendorNumber {
+      width: 324px;
+      height: 40px;
+      color: #a0abbb;
+    }
+    .vendorName {
+      width: 100%;
+      height: 40px;
+      color: #a0abbb;
+    }
+    .purchaseNumber {
+      width: 100%;
+      height: 40px;
+      color: #a0abbb;
+    }
+    .poc-number {
+      width: 324px;
+      height: 40px;
+      color: #a0abbb;
+    }
+  }
+  .custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .date-selector {
+    position: relative;
+    .date-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      z-index: 10;
+      transform: translateY(-50%);
+    }
+    .calender-icon {
+      position: absolute;
+      left: 35px;
+      top: 50%;
+      z-index: 10;
+      transform: translateY(-50%);
+    }
+    .arrow-down-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .react-datepicker-wrapper {
+      input {
+        width: 324px;
+        height: 40px;
+        color: #a0abbb;
+        padding-left: 32px;
+      }
+    }
+  }
 `;
+
 
 export const Label = styled.label`
   display: block;
@@ -79,15 +184,16 @@ export const InputField = styled(Field)`
   }
 `;
 
-export const SelectField = styled(Field)`
+export const SelectFieldStyled = styled(Field)`
   width: 100%;
   padding: 10px;
   border: 1px solid #3b4555;
   border-radius: 4px;
   font-size: 14px;
+  height: 40px;
 `;
 
-export const TextareaField = styled(Field)`
+export const TextareaFieldStyled = styled(Field)`
   width: 100%;
   height: 44px;
   padding: 10px;
@@ -95,6 +201,7 @@ export const TextareaField = styled(Field)`
   border-radius: 4px;
   font-size: 14px;
   resize: vertical;
+  color: #a0abbb;
 `;
 
 export const ErrorMessageStyled = styled(ErrorMessage)`

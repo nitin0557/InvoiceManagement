@@ -8,9 +8,10 @@ interface TabsProps {
 
 const Tabs = styled.div`
   display: flex;
-  background-color: #e7eaee;
+  background-color: #E7EAEE;
   border-radius: 12px;
   padding: 0px;
+  width: 93px;
 `;
 
 const Tab = styled.div`

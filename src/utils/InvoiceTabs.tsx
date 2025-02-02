@@ -31,7 +31,6 @@ const Tab = styled.div`
 `;
 
 export const InvoiceTabs: React.FC<TabsProps> = ({ activeTab, handleTabsControl }) => {
-  console.log(activeTab)
   return (
     <Tabs>
       <Tab

@@ -22,8 +22,7 @@ export const Label = styled.label`
 export const FormTitle = styled.h3`
   color: #000;
   text-align: left;
-  margin-bottom: px;
-  padding-left: 20px;
+  padding:0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,6 +33,63 @@ export const FormField = styled.div`
   flex-direction: column;
   margin-bottom: 1.5rem;
 
+    .custom-input-selector {
+    position: relative;
+    .dollar-icon {
+      position: absolute;
+      top: 50%;
+      left: 2px;
+      transform: translateY(-51%);
+      background: #e7eaee;
+      width: 40px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+    .usd-text {
+      right: 24px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .custom-select {
+    position: relative;
+
+    .select-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .account {
+      width: 319px;
+      height: 40px;
+      color: #a0abbb;
+    }
+    .location {
+      width: 319px;
+      height: 40px;
+      color: #a0abbb;
+    }
+
+    .department {
+      width: 319px;
+      height: 40px;
+      color: #a0abbb;
+    }
+  }
+  .custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+
+
   label {
     font-size: 1rem;
     margin-bottom: 0.5rem;
@@ -43,6 +99,7 @@ export const FormField = styled.div`
   input {
     width: 322px;
     padding: 0.75rem;
+    padding-left: 45px;
     border: 1px solid #64748b;
     border-radius: 6px;
     font-size: 1rem;
@@ -55,7 +112,7 @@ export const FormField = styled.div`
     width: 100%;
 
     textarea {
-      height: 44px;
+      height: 40px;
       padding: 0.75rem;
       border: 1px solid #64748b;
       border-radius: 6px;

@@ -45,7 +45,7 @@ export const InvoiceModal: React.FC<InvoiceModalProps> = ({ closeModal }) => {
       <Modal>
         <ModalContent>
           <h3>Data saved successfully!</h3>
-          <p>Your data has been saved locally.</p>
+          <p> Data has been saved locally.</p>
           <Button onClick={closeModal}>Close</Button>
         </ModalContent>
       </Modal>

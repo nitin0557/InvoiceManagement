@@ -26,7 +26,6 @@ const Login: React.FC = () => {
       .required("Password is required"),
   });
 
-  console.log(validationSchema);
 
   const initialValues = {
     username: "",

@@ -15,6 +15,7 @@ const AddExpenseButton = styled.button`
   transition: background-color 0.2s ease;
   white-space: nowrap;
   font-size: 1rem;
+  margin-right: 20px;
 
   &:hover {
     background-color: #f0f0f0;
@@ -36,11 +37,15 @@ const AddIcon = styled.span`
   }
 `;
 
+// interface AddExpenseProps {
+//   addNewExpenseForm: () => void;
+// }
+
 const AddExpense: React.FC = () => {
   return (
-    <AddExpenseButton>
+    <AddExpenseButton  >
       <AddIcon />
-      Add Expense Coding
+      Add Expense
     </AddExpenseButton>
   );
 };

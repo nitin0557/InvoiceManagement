@@ -9,9 +9,16 @@ import {
 } from "./ExpenseDetails.style";
 import { ToggleButtonComponent } from "../../utils/ToggleButton";
 import AddExpense from "../../utils/AddExpense";
-
+import { InputFieldComponent } from "../../commonComponents/InputField";
+import { SelectField } from "../../commonComponents/SelectField";
+import { expenseFields } from "../../constants/ExpenseFormConstants";
 
 const ExpenseDetails: React.FC = () => {
+
+    const expenseFieldsOptions =
+       expenseFields.find((item) => item.name === "account")?.options || [];
+    const locationFieldsOptions =
+       expenseFields.find((item) => item.name === "location")?.options || [];
   return (
     <>
       <FormTitle>
@@ -22,7 +29,13 @@ const ExpenseDetails: React.FC = () => {
           <Label htmlFor="lineAmount">
             Line Amount <span className="asterisk">*</span>
           </Label>
-          <Field name="lineAmount" type="number" placeholder="0.00" />
+          <InputFieldComponent
+            name="lineAmount"
+            type="number"
+            placeholder="0.00"
+            required={true}
+          />
+          {/* <Field name="lineAmount" type="number" placeholder="0.00" /> */}
           <ErrorMessage name="lineAmount" component={ErrorText} />
         </FormField>
 
@@ -30,7 +43,15 @@ const ExpenseDetails: React.FC = () => {
           <Label htmlFor="account">
             Account<span className="asterisk">*</span>
           </Label>
-          <Field name="account" type="text" placeholder="Select Account" />
+          <SelectField
+            name="account"
+            options={expenseFieldsOptions}
+            required={true}
+            className="account"
+            placeholder="Select Account"
+          />
+
+          {/* <Field name="account" type="text" placeholder="Select Account" /> */}
           <ErrorMessage name="account" component={ErrorText} />
         </FormField>
 
@@ -38,11 +59,14 @@ const ExpenseDetails: React.FC = () => {
           <Label htmlFor="department">
             Department<span className="asterisk">*</span>
           </Label>
-          <Field
-            name="department"
-            type="text"
-            placeholder="Select Department"
-          />
+           <SelectField
+              name="department"
+              options={expenseFieldsOptions}
+              required={true}
+              className="department"
+              placeholder="Select Department"
+            />
+   
           <ErrorMessage name="department" component={ErrorText} />
         </FormField>
 
@@ -50,7 +74,14 @@ const ExpenseDetails: React.FC = () => {
           <Label htmlFor="location">
             Location<span className="asterisk">*</span>
           </Label>
-          <Field name="location" type="text" placeholder="Select Location" />
+           <SelectField
+              name="location"
+              options={locationFieldsOptions}
+              required={true}
+              className="location"
+              placeholder="Select Location"
+            />
+          {/* <Field name="location" type="text" placeholder="Select Location" /> */}
           <ErrorMessage name="location" component={ErrorText} />
         </FormField>
 
